@@ -1,0 +1,27 @@
+using UnityEngine;
+
+public class MouseMovement : MonoBehaviour
+{
+    public float sensitivity = 100.0f;
+    public float maxYAngle = 80.0f;
+
+    private Vector2 currentRotation;
+    private Vector2 deltaRotation;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    void Update()
+    {
+        deltaRotation = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        deltaRotation *= sensitivity * Time.deltaTime;
+
+        currentRotation.x += deltaRotation.x;
+        currentRotation.y -= deltaRotation.y;
+        currentRotation.y = Mathf.Clamp(currentRotation.y, -maxYAngle, maxYAngle);
+
+        transform.localRotation = Quaternion.Euler(currentRotation.y, currentRotation.x, 0.0f);
+    }
+}
